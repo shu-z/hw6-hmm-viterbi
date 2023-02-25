@@ -81,7 +81,7 @@ class ViterbiAlgorithm:
    
 
         #backtrace through best_path
-        for node in reversed(range(len(decode_observation_states))):
+        for node in reversed(range(1,len(decode_observation_states))):
             best_path[node-1] = path[node, int(best_path[node])]
             
         
