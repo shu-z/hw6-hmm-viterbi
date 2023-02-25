@@ -93,8 +93,48 @@ def test_user_case_two():
     """
     # TODO
 
+    use_case_two_data = np.load('./data/UserCase-Two.npz')
+
+    use_case_two_hmm = HiddenMarkovModel(['Hot', 'Cold'],
+                                         ['Sun', 'Rain'],
+                      use_case_two_data['prior_probabilities'], # prior probabilities of hidden states in the order specified in the hidden_states list
+                      use_case_two_data['transition_probabilities'], # transition_probabilities[:,hidden_states[i]]
+                      use_case_two_data['emission_probabilities']) 
+
+     # Instantiate submodule class models.ViterbiAlgorithm using the use case one HMM 
+    use_case_two_viterbi = ViterbiAlgorithm(use_case_two_hmm)
+
+
+      # Find the best hidden state path for our observation states
+    use_case_decoded_hidden_states = use_case_two_viterbi.best_hidden_state_sequence(use_case_two_data['observation_states'])
+    print(use_case_decoded_hidden_states)
+    print(use_case_two_data['hidden_states'])
+    assert np.alltrue(use_case_decoded_hidden_states == use_case_two_data['hidden_states'])
+
+    
+
 
 def test_user_case_three():
     """_summary_
     """
-    # TODO
+
+
+    use_case_three_data = np.load('./data/UserCase-Three.npz')
+
+    use_case_three_hmm = HiddenMarkovModel(['Happy', 'Ambivalent', 'Grumpy'],
+                                         ['Ate Lunch', 'No Food'],
+                      use_case_three_data['prior_probabilities'], # prior probabilities of hidden states in the order specified in the hidden_states list
+                      use_case_three_data['transition_probabilities'], # transition_probabilities[:,hidden_states[i]]
+                      use_case_three_data['emission_probabilities']) 
+
+     # Instantiate submodule class models.ViterbiAlgorithm using the use case one HMM 
+    use_case_three_viterbi = ViterbiAlgorithm(use_case_three_hmm)
+
+
+      # Find the best hidden state path for our observation states
+    use_case_decoded_hidden_states = use_case_three_viterbi.best_hidden_state_sequence(use_case_three_data['observation_states'])
+    print(use_case_decoded_hidden_states)
+    print(use_case_three_data['hidden_states'])
+    assert np.alltrue(use_case_decoded_hidden_states == use_case_three_data['hidden_states'])
+
+    
