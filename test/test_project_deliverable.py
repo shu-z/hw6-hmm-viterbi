@@ -50,3 +50,26 @@ def test_deliverable():
     # Decode the hidden states of the primitive cardiomyocyte's regulatory observation states
     decoded_hidden_states_for_observed_states_of_prim_cm = prim_cm_viterbi_instance.best_hidden_state_sequence(prim_cm_data['observation_states'])
     assert np.sum(prim_cm_data['hidden_states'] == decoded_hidden_states_for_observed_states_of_prim_cm)/len(prim_cm_data['observation_states']) == 0.6
+
+
+
+
+
+    #check that prior probability dims are equal to # of hidden states
+    assert np.allclose(len(prog_cm_viterbi_instance.hmm_object.prior_probabilities), len(hidden_states))
+
+    #get shapes of transition and emission matrices
+    transition_shape=prog_cm_viterbi_instance.hmm_object.transition_probabilities.shape
+    emission_shape=prog_cm_viterbi_instance.hmm_object.emission_probabilities.shape
+
+    #check that transition prob dim is nxn where n is # hidden states
+    assert np.allclose(transition_shape[0], transition_shape[1])
+    assert np.allclose(transition_shape[0], len(hidden_states))
+
+    #check that emission prob dim is nxm where n is # hidden states and m is # observed states 
+    assert np.allclose(emission_shape[0], len(hidden_states))
+    assert np.allclose(emission_shape[1], len(observation_states))
+
+
+     #check that length of best path (viterbi output) is same length as input observation states
+    assert len(evaluate_viterbi_decoder_using_observation_states_of_prog_cm)==len(prog_cm_data['observation_states'])

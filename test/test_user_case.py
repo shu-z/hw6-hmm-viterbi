@@ -11,6 +11,31 @@ from src.models.hmm import HiddenMarkovModel
 from src.models.decoders import ViterbiAlgorithm
 
 
+def check_hmm_dims(viterbi_obj, hidden_states, obs_states):
+
+    """
+    Checks that correct dimensions exist for prior, transition, emission probability matrices
+    """
+
+
+    #check that prior probability dims are equal to # of hidden states
+    assert np.allclose(len(viterbi_obj.hmm_object.prior_probabilities), len(hidden_states))
+
+    #get shapes of transition and emission matrices
+    transition_shape=viterbi_obj.hmm_object.transition_probabilities.shape
+    emission_shape=viterbi_obj.hmm_object.emission_probabilities.shape
+
+    #check that transition prob dim is nxn where n is # hidden states
+    assert np.allclose(transition_shape[0], transition_shape[1])
+    assert np.allclose(transition_shape[0], len(hidden_states))
+
+    #check that emission prob dim is nxm where n is # hidden states and m is # observed states 
+    assert np.allclose(emission_shape[0], len(hidden_states))
+    assert np.allclose(emission_shape[1], len(obs_states))
+
+
+
+
 def test_use_case_lecture():
     pass
     """_summary_
@@ -43,11 +68,22 @@ def test_use_case_lecture():
     assert np.allclose(use_case_one_viterbi.hmm_object.transition_probabilities, use_case_one_hmm.transition_probabilities)
     assert np.allclose(use_case_one_viterbi.hmm_object.emission_probabilities, use_case_one_hmm.emission_probabilities)
 
-    # TODO: Check HMM dimensions and ViterbiAlgorithm
     
     # Find the best hidden state path for our observation states
     use_case_decoded_hidden_states = use_case_one_viterbi.best_hidden_state_sequence(use_case_one_data['observation_states'])
     assert np.alltrue(use_case_decoded_hidden_states == use_case_one_data['hidden_states'])
+
+
+     # TODO: Check HMM dimensions and ViterbiAlgorithm
+
+    #check a bunch of matrix dimensions
+    check_hmm_dims(use_case_one_viterbi, hidden_states, observation_states)
+
+    #check that length of best path (viterbi output) is same length as input observation states
+    assert len(use_case_decoded_hidden_states)==len(use_case_one_data['observation_states'])
+
+
+
 
 
 def test_user_case_one():
@@ -81,11 +117,20 @@ def test_user_case_one():
     assert np.allclose(use_case_one_viterbi.hmm_object.transition_probabilities, use_case_one_hmm.transition_probabilities)
     assert np.allclose(use_case_one_viterbi.hmm_object.emission_probabilities, use_case_one_hmm.emission_probabilities)
 
-    # TODO: Check HMM dimensions and ViterbiAlgorithm
     
     # Find the best hidden state path for our observation states
     use_case_decoded_hidden_states = use_case_one_viterbi.best_hidden_state_sequence(use_case_one_data['observation_states'])
     assert np.alltrue(use_case_decoded_hidden_states == use_case_one_data['hidden_states'])
+
+
+    # TODO: Check HMM dimensions and ViterbiAlgorithm
+
+    #check a bunch of matrix dimensions
+    check_hmm_dims(use_case_one_viterbi, hidden_states, observation_states)
+
+    #check that length of best path (viterbi output) is same length as input observation states
+    assert len(use_case_decoded_hidden_states)==len(use_case_one_data['observation_states'])
+
 
 
 def test_user_case_two():
@@ -94,9 +139,11 @@ def test_user_case_two():
     # TODO
 
     use_case_two_data = np.load('./data/UserCase-Two.npz')
+    observation_states=['Hot', 'Cold']
+    hidden_states=['Sun', 'Rain']
 
-    use_case_two_hmm = HiddenMarkovModel(['Hot', 'Cold'],
-                                         ['Sun', 'Rain'],
+    use_case_two_hmm = HiddenMarkovModel(observation_states,
+                                         hidden_states,
                       use_case_two_data['prior_probabilities'], # prior probabilities of hidden states in the order specified in the hidden_states list
                       use_case_two_data['transition_probabilities'], # transition_probabilities[:,hidden_states[i]]
                       use_case_two_data['emission_probabilities']) 
@@ -111,6 +158,20 @@ def test_user_case_two():
     print(use_case_two_data['hidden_states'])
     assert np.alltrue(use_case_decoded_hidden_states == use_case_two_data['hidden_states'])
 
+
+    # TODO: Check HMM dimensions and ViterbiAlgorithm
+
+   
+    #check a bunch of matrix dimensions
+    check_hmm_dims(use_case_two_viterbi, hidden_states, observation_states)
+
+    #check that length of best path (viterbi output) is same length as input observation states
+    assert len(use_case_decoded_hidden_states)==len(use_case_two_data['observation_states'])
+
+
+
+
+
     
 
 
@@ -120,9 +181,11 @@ def test_user_case_three():
 
 
     use_case_three_data = np.load('./data/UserCase-Three.npz')
+    observation_states=['Happy', 'Ambivalent', 'Grumpy']
+    hidden_states=['Ate Lunch', 'No Food']
 
-    use_case_three_hmm = HiddenMarkovModel(['Happy', 'Ambivalent', 'Grumpy'],
-                                         ['Ate Lunch', 'No Food'],
+    use_case_three_hmm = HiddenMarkovModel(observation_states,
+                                         hidden_states,
                       use_case_three_data['prior_probabilities'], # prior probabilities of hidden states in the order specified in the hidden_states list
                       use_case_three_data['transition_probabilities'], # transition_probabilities[:,hidden_states[i]]
                       use_case_three_data['emission_probabilities']) 
@@ -136,5 +199,16 @@ def test_user_case_three():
     print(use_case_decoded_hidden_states)
     print(use_case_three_data['hidden_states'])
     assert np.alltrue(use_case_decoded_hidden_states == use_case_three_data['hidden_states'])
+
+
+
+    #check a bunch of matrix dimensions
+    check_hmm_dims(use_case_three_viterbi, hidden_states, observation_states)
+
+    #check that length of best path (viterbi output) is same length as input observation states
+    assert len(use_case_decoded_hidden_states)==len(use_case_three_data['observation_states'])
+
+
+
 
     
