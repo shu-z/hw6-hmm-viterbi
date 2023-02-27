@@ -1,9 +1,9 @@
 """
 UCSF BMI203: Biocomputing Algorithms
-Author:
-Date: 
-Program: 
-Description:
+Author: Shu Zhang
+Date: 02/24/23
+Program: BMI
+Description: This file contains a test case for the Viterbi Algorithm. 
 """
 import pytest
 import numpy as np
@@ -13,7 +13,7 @@ from src.models.decoders import ViterbiAlgorithm
 
 def check_hmm_dims(viterbi_obj, hidden_states, obs_states):
 
-    """Checks that correct dimensions exist for prior, transition, emission probability matrices
+    """Helper function to check that correct dimensions exist for prior, transition, emission probability matrices
     """
 
 
