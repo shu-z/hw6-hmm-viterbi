@@ -13,8 +13,7 @@ from src.models.decoders import ViterbiAlgorithm
 
 def check_hmm_dims(viterbi_obj, hidden_states, obs_states):
 
-    """
-    Checks that correct dimensions exist for prior, transition, emission probability matrices
+    """Checks that correct dimensions exist for prior, transition, emission probability matrices
     """
 
 
@@ -37,8 +36,8 @@ def check_hmm_dims(viterbi_obj, hidden_states, obs_states):
 
 
 def test_use_case_lecture():
-    pass
-    """_summary_
+    """Tests hypothesis that a rotation student's dedication is dependent on their lab's NIH funding. 
+    Checks that correct hidden sequence is calculated, and variable dimensions are as expected.  
     """
     # index annotation observation_states=[i,j]    
     observation_states = ['committed','ambivalent'] # A graduate student's dedication to their rotation lab
@@ -87,7 +86,8 @@ def test_use_case_lecture():
 
 
 def test_user_case_one():
-    """_summary_
+    """Tests hypothesis that an individual's timeliness is dependent on the presence of traffic. 
+    Checks that correct hidden sequence is calculated, and variable dimensions are as expected.  
     """
     # index annotation observation_states=[i,j]    
     observation_states = ['on-time','late'] 
@@ -134,7 +134,8 @@ def test_user_case_one():
 
 
 def test_user_case_two():
-    """_summary_
+    """Tests hypothesis that the outside temperature is dependent on whether it is sunny or rainy. 
+    Checks that correct hidden sequence is calculated, and variable dimensions are as expected.  
     """
     # TODO
 
@@ -176,7 +177,9 @@ def test_user_case_two():
 
 
 def test_user_case_three():
-    """_summary_
+    """Tests hypothesis that an individual's mood is dependent on whether or not they ate lunch. 
+    Checks that correct hidden sequence is calculated, and variable dimensions are as expected. 
+    Also tests if algorithm still works with different dimensions for observation states and related variables.
     """
 
 

@@ -1,9 +1,9 @@
 """
 UCSF BMI203: Biocomputing Algorithms
-Author:
-Date: 
-Program: 
-Description:
+Author: Shu Zhang
+Date: 02/24/23
+Program: BMI
+Description: This file contains a test case for the Viterbi Algorithm. 
 """
 import pytest
 import numpy as np
@@ -11,7 +11,8 @@ from src.models.hmm import HiddenMarkovModel
 from src.models.decoders import ViterbiAlgorithm
 
 def test_deliverable():
-    """_summary_
+    """Test hypothesis that hidden states of primitive CMs can be decoded with HMM instantiated from progenitor CMs. 
+    Also tests that HMM class works and is read in properly, and that array dimensions for different variables are as expected. 
     """
     # index annotation observation_states=[i,j] 
     observation_states = ['regulatory', 'regulatory-potential'] # observed regulatory activity in the TBX5 TAD of cardiomyocytes
